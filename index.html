@@ -25,19 +25,35 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 
 /* LOBBY */
 #screen-lobby{position:relative;overflow:hidden;}
-#lobby-svg{position:absolute;inset:0;width:100%;height:100%;}
+#lobby-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+#lobby-sabeol{
+  position:absolute;
+  left:0;bottom:0;
+  height:90%;
+  object-fit:contain;object-position:bottom left;
+  animation:sabeolFloat 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes ringHint{
+  0%,100%{opacity:.5;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.1);}
+}
+@keyframes sabeolFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-14px);}
+}
 .lobby-bubble{
   position:absolute;z-index:20;
-  top:12%;right:6%;
+  top:8%;left:28%;
   background:#fff;border-radius:20px;
-  padding:12px 18px;max-width:280px;
+  padding:12px 18px;max-width:260px;
   box-shadow:0 6px 24px rgba(0,0,0,0.13);
   display:none;
   animation:popIn .3s cubic-bezier(.34,1.56,.64,1);
 }
 @keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
 .lobby-bubble-text{font-size:.9rem;font-weight:800;color:#333;line-height:1.5;}
-.bubble-tail{position:absolute;bottom:-14px;left:28px;border-left:14px solid transparent;border-right:8px solid transparent;border-top:16px solid #fff;}
+.bubble-tail{position:absolute;bottom:40%;left:-14px;border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:16px solid #fff;}
 
 /* BELL clickable overlay */
 #bell-hit{position:absolute;cursor:pointer;z-index:15;}
@@ -144,6 +160,221 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 .counter-strip{position:absolute;bottom:0;left:0;right:0;height:27%;background:linear-gradient(180deg,#D4956A,#B8743E);border-top:5px solid #E8A870;z-index:5;}
 
 
+
+
+/* ROOM DETAIL SCREEN */
+#screen-roomdetail{flex-direction:column;overflow:hidden;position:relative;}
+
+/* 방 배경 - 방 종류별 */
+.rd-bg-flower{background:linear-gradient(160deg,#FFF0F8,#FFD6EE,#FFC0E0);}
+.rd-bg-pond{background:linear-gradient(160deg,#E8F4FF,#C8E8FF,#A8D4F8);}
+.rd-bg-valley{background:linear-gradient(160deg,#E8FFE8,#C8F0C8,#A8DCA8);}
+.rd-bg-tree{background:linear-gradient(160deg,#FFF4E0,#FFE4B0,#F0C870);}
+.rd-bg-grass{background:linear-gradient(160deg,#F0FFE8,#D8F4C0,#C0E8A0);}
+
+.rd-header{width:100%;display:flex;align-items:center;padding:14px 20px;gap:12px;flex-shrink:0;background:rgba(255,255,255,.4);backdrop-filter:blur(8px);}
+.rd-room-num{font-family:var(--font-d);color:var(--wood2);font-size:1.1rem;}
+.rd-room-type{margin-left:4px;font-size:.8rem;color:#999;font-weight:700;}
+
+/* 방 내부 메인 */
+.rd-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:16px;overflow:hidden;}
+
+/* 일러스트 영역 */
+.rd-illustration{
+  width:min(280px,50vw);height:min(200px,35vh);
+  background:rgba(255,255,255,.5);border-radius:24px;
+  border:3px dashed rgba(255,255,255,.8);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;position:relative;overflow:hidden;
+}
+.rd-illust-emoji{font-size:5rem;line-height:1;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.rd-illust-placeholder{font-size:.7rem;color:rgba(100,80,60,.4);font-weight:700;position:absolute;bottom:10px;}
+
+/* 정보 카드 */
+.rd-info{background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border-radius:20px;padding:16px 24px;width:min(360px,90vw);box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.rd-info-name{font-family:var(--font-d);color:var(--wood2);font-size:1.2rem;text-align:center;margin-bottom:10px;}
+.rd-info-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.06);}
+.rd-info-row:last-child{border-bottom:none;}
+.rd-info-label{font-size:.78rem;color:#AAA;font-weight:700;}
+.rd-info-val{font-size:.85rem;font-weight:800;color:#444;}
+
+/* 스테이지 바 */
+.rd-stage-bar{display:flex;align-items:center;gap:6px;margin-top:4px;}
+.rd-stage-item{display:flex;flex-direction:column;align-items:center;gap:2px;opacity:.35;}
+.rd-stage-item.done{opacity:.6;}
+.rd-stage-item.current{opacity:1;}
+.rd-stage-emoji{font-size:1.1rem;}
+.rd-stage-label{font-size:.55rem;font-weight:800;color:#888;}
+.rd-stage-arrow{font-size:.8rem;color:#CCC;}
+
+/* 성충 축하 */
+.rd-adult-banner{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  border-radius:16px;padding:12px 24px;text-align:center;
+  box-shadow:0 4px 16px rgba(255,165,0,.4);
+  width:min(360px,90vw);
+}
+.rd-adult-title{font-family:var(--font-d);color:#fff;font-size:1.3rem;text-shadow:0 2px 4px rgba(0,0,0,.2);}
+.rd-adult-sub{color:rgba(255,255,255,.9);font-size:.78rem;margin-top:4px;font-weight:700;}
+
+/* 체크아웃 버튼 */
+.rd-checkout-btn{
+  padding:14px 40px;background:linear-gradient(135deg,#6DD36D,#3A9E3A);
+  border:none;border-radius:16px;color:#fff;font-size:1rem;font-weight:900;
+  cursor:pointer;font-family:var(--font-b);box-shadow:0 4px 16px rgba(60,160,60,.35);
+  transition:all .15s;
+}
+.rd-checkout-btn:active{transform:scale(.96);}
+
+/* 자연으로 돌아가는 애니메이션 */
+.rd-release-overlay{
+  position:absolute;inset:0;background:linear-gradient(160deg,#C8F0A8,#A8E888,#88D868);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;z-index:50;opacity:0;pointer-events:none;transition:opacity .5s;
+}
+.rd-release-overlay.on{opacity:1;pointer-events:all;}
+.rd-release-emoji{font-size:6rem;animation:flyAway 2s ease-in forwards;}
+@keyframes flyAway{
+  0%{transform:translateY(0) scale(1);opacity:1;}
+  60%{transform:translateY(-30px) scale(1.2);opacity:1;}
+  100%{transform:translateY(-200px) scale(0.5);opacity:0;}
+}
+.rd-release-title{font-family:var(--font-d);color:#2A6A10;font-size:1.5rem;}
+.rd-release-sub{color:#3A8A20;font-size:.85rem;font-weight:700;text-align:center;line-height:1.6;}
+.rd-release-done-btn{
+  padding:12px 32px;background:#fff;border:2.5px solid #6DD36D;
+  border-radius:14px;color:#3A9E3A;font-size:.95rem;font-weight:900;
+  cursor:pointer;font-family:var(--font-b);margin-top:8px;
+}
+
+
+
+/* 성충 알림 팝업 */
+.adult-alert-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);
+  z-index:200;display:none;align-items:center;justify-content:center;
+}
+.adult-alert-overlay.on{display:flex;}
+.adult-alert-card{
+  background:#fff;border-radius:24px;padding:28px 24px;
+  width:min(380px,90vw);max-height:80vh;overflow-y:auto;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);
+  display:flex;flex-direction:column;gap:14px;
+}
+.adult-alert-title{font-family:var(--font-d);color:var(--wood2);font-size:1.3rem;text-align:center;}
+.adult-alert-sub{font-size:.82rem;color:#999;text-align:center;margin-top:-6px;}
+.adult-alert-item{
+  background:linear-gradient(135deg,#FFFBF0,#FFF3D0);
+  border:2px solid var(--gold);border-radius:16px;
+  padding:12px 16px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:all .15s;
+}
+.adult-alert-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(245,166,35,.3);}
+.adult-alert-emoji{font-size:2.2rem;flex-shrink:0;}
+.adult-alert-info{flex:1;}
+.adult-alert-name{font-size:.9rem;font-weight:900;color:#333;}
+.adult-alert-detail{font-size:.72rem;color:#AAA;font-weight:700;margin-top:2px;}
+.adult-alert-close{
+  width:100%;padding:11px;background:#F5F5F5;border:none;border-radius:12px;
+  color:#888;font-size:.9rem;font-weight:800;cursor:pointer;font-family:var(--font-b);
+}
+
+/* COLLECTION (여권 수첩) */
+#screen-collection{background:linear-gradient(160deg,#2A1A0A,#4A2A10);flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+.col-header{width:100%;display:flex;align-items:center;padding:14px 20px;gap:12px;flex-shrink:0;position:absolute;top:0;left:0;z-index:10;}
+.col-back{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:10px;padding:7px 14px;color:#fff;font-family:var(--font-b);font-size:.82rem;font-weight:700;cursor:pointer;}
+.col-title{font-family:var(--font-d);color:#FFD700;font-size:1.1rem;}
+.col-count{margin-left:auto;font-size:.78rem;color:rgba(255,255,255,.5);font-weight:700;}
+
+/* 여권 책 */
+.passport-book{
+  width:min(420px,88vw);height:min(300px,72vh);
+  position:relative;
+  transform-style:preserve-3d;
+  perspective:1000px;
+}
+/* 빈 도감 */
+.col-empty{text-align:center;color:rgba(255,255,255,.5);}
+.col-empty-icon{font-size:3rem;margin-bottom:10px;}
+.col-empty-text{font-size:.9rem;font-weight:700;}
+
+/* 페이지 */
+.passport-page{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,#FFFDF5,#FFF8E8);
+  border-radius:4px 16px 16px 4px;
+  box-shadow:4px 4px 20px rgba(0,0,0,.4), inset -2px 0 8px rgba(0,0,0,.08);
+  display:flex;overflow:hidden;
+  transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .3s;
+}
+.passport-page.hidden{opacity:0;pointer-events:none;}
+
+/* 왼쪽 바인딩 */
+.pp-spine{
+  width:28px;flex-shrink:0;
+  background:linear-gradient(180deg,#8B1A1A,#6B0A0A);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  border-radius:4px 0 0 4px;
+}
+.pp-spine-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,200,100,.4);}
+
+/* 페이지 내용 */
+.pp-content{flex:1;padding:18px 16px;display:flex;flex-direction:column;gap:10px;overflow:hidden;}
+.pp-header{display:flex;align-items:center;justify-content:space-between;}
+.pp-passport-label{font-size:.55rem;font-weight:900;color:#8B4A0A;letter-spacing:2px;text-transform:uppercase;}
+.pp-num{font-size:.6rem;color:#CCC;font-weight:700;}
+
+/* 곤충 영역 */
+.pp-insect-area{display:flex;gap:14px;align-items:flex-start;}
+.pp-emoji-box{
+  width:80px;height:80px;flex-shrink:0;
+  background:linear-gradient(160deg,#FFF0D0,#FFE0B0);
+  border:2px solid #E8C880;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;
+}
+.pp-details{flex:1;display:flex;flex-direction:column;gap:5px;}
+.pp-nickname{font-family:var(--font-d);color:#4A2000;font-size:1.15rem;line-height:1;}
+.pp-species{font-size:.72rem;color:#AA7040;font-weight:700;}
+.pp-owner{font-size:.7rem;color:#AAA;font-weight:700;margin-top:2px;}
+
+/* 정보 줄 */
+.pp-rows{display:flex;flex-direction:column;gap:4px;border-top:1.5px solid #EEE;padding-top:8px;}
+.pp-row{display:flex;justify-content:space-between;align-items:center;}
+.pp-row-label{font-size:.65rem;color:#BBB;font-weight:700;}
+.pp-row-val{font-size:.72rem;color:#444;font-weight:800;}
+
+/* 스탬프 */
+.pp-stamp{
+  position:absolute;bottom:16px;right:16px;
+  width:56px;height:56px;border-radius:50%;
+  border:3px solid rgba(200,50,50,.5);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:rotate(-15deg);opacity:.7;
+}
+.pp-stamp-text{font-size:.45rem;font-weight:900;color:#C83232;letter-spacing:1px;text-transform:uppercase;text-align:center;line-height:1.3;}
+
+/* 메모 */
+.pp-memo{
+  background:#FFFBF0;border:1.5px dashed #DDD;border-radius:8px;
+  padding:6px 10px;font-size:.7rem;color:#888;font-style:italic;
+  min-height:28px;cursor:pointer;
+}
+.pp-memo:empty::before{content:'메모를 추가하려면 탭하세요...';color:#CCC;}
+
+/* 페이지 넘기기 버튼 */
+.col-nav{display:flex;align-items:center;gap:20px;margin-top:16px;}
+.col-nav-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);
+  color:#fff;font-size:1.2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.col-nav-btn:hover{background:rgba(255,255,255,.25);}
+.col-nav-btn:disabled{opacity:.3;cursor:not-allowed;}
+.col-page-indicator{color:rgba(255,255,255,.6);font-size:.82rem;font-weight:700;min-width:60px;text-align:center;}
 
 /* ALL ROOMS SCREEN */
 #screen-allrooms{background:linear-gradient(160deg,#FFF8EE,#FDE8C8);flex-direction:column;overflow:hidden;}
@@ -336,295 +567,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 
 <!-- LOBBY -->
 <div id="screen-lobby" class="screen active">
-  <svg id="lobby-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#C5E8FF"/>
-        <stop offset="45%" stop-color="#E8F4FF"/>
-        <stop offset="72%" stop-color="#FDE8C8"/>
-        <stop offset="88%" stop-color="#E8C89A"/>
-        <stop offset="100%" stop-color="#C89060"/>
-      </linearGradient>
-      <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#F5DEB8"/>
-        <stop offset="100%" stop-color="#E8C898"/>
-      </linearGradient>
-      <linearGradient id="counterGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#C89060"/>
-        <stop offset="100%" stop-color="#A06840"/>
-      </linearGradient>
-      <linearGradient id="deskGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#D4A870"/>
-        <stop offset="30%" stop-color="#B88050"/>
-        <stop offset="100%" stop-color="#8B5020"/>
-      </linearGradient>
-      <linearGradient id="bodyGrad" x1="0.2" y1="0" x2="0.8" y2="1">
-        <stop offset="0%" stop-color="#5C3020"/>
-        <stop offset="50%" stop-color="#3C1A0C"/>
-        <stop offset="100%" stop-color="#2A1008"/>
-      </linearGradient>
-      <linearGradient id="suitGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#2A2A5C"/>
-        <stop offset="100%" stop-color="#14143A"/>
-      </linearGradient>
-      <linearGradient id="bellGrad" cx="35%" cy="30%" r="65%" fx="35%" fy="30%" id="bellRad" gradientUnits="objectBoundingBox">
-        <stop offset="0%" stop-color="#FFE844"/>
-        <stop offset="50%" stop-color="#FFD700"/>
-        <stop offset="100%" stop-color="#B8860B"/>
-      </linearGradient>
-      <radialGradient id="bellRad" cx="35%" cy="28%" r="65%">
-        <stop offset="0%" stop-color="#FFE844"/>
-        <stop offset="55%" stop-color="#FFD700"/>
-        <stop offset="100%" stop-color="#C8980A"/>
-      </radialGradient>
-      <radialGradient id="lampGlow" cx="50%" cy="0%" r="70%">
-        <stop offset="0%" stop-color="#FFE878" stop-opacity="0.45"/>
-        <stop offset="100%" stop-color="#FFE878" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000033"/>
-      </filter>
-      <!-- Outline style for characters (주니토니 look) -->
-      <filter id="outline">
-        <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="dilated"/>
-        <feFlood flood-color="#000" result="color"/>
-        <feComposite in="color" in2="dilated" operator="in" result="shadow"/>
-        <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-
-    <!-- BG -->
-    <rect width="1000" height="600" fill="url(#skyGrad)"/>
-
-    <!-- Wall panels -->
-    <rect x="0" y="120" width="1000" height="360" fill="url(#wallGrad)" opacity="0.5"/>
-
-    <!-- Ceiling lamp -->
-    <rect x="497" y="0" width="6" height="52" fill="#8B7050" rx="3"/>
-    <ellipse cx="500" cy="52" rx="5" ry="5" fill="#A08060"/>
-    <!-- Lamp shade -->
-    <path d="M460,52 Q470,30 500,28 Q530,30 540,52 Z" fill="#8B6040" stroke="#6B4020" stroke-width="2"/>
-    <path d="M462,52 Q472,45 500,43 Q528,45 538,52" fill="#C49060" stroke="none"/>
-    <!-- Glow -->
-    <ellipse cx="500" cy="80" rx="200" ry="120" fill="url(#lampGlow)"/>
-    <!-- Lamp bulb glow dot -->
-    <ellipse cx="500" cy="55" rx="8" ry="5" fill="#FFF5A0" opacity="0.9"/>
-
-    <!-- Hotel sign board -->
-    <rect x="350" y="65" width="300" height="70" rx="10" fill="#7B4E28" stroke="#F5A623" stroke-width="4" filter="url(#softShadow)"/>
-    <rect x="354" y="69" width="292" height="62" rx="8" fill="#8B5E38" opacity="0.5"/>
-    <!-- Screws on sign -->
-    <circle cx="368" cy="78" r="4" fill="#C49050" stroke="#A07030" stroke-width="1"/>
-    <circle cx="632" cy="78" r="4" fill="#C49050" stroke="#A07030" stroke-width="1"/>
-    <circle cx="368" cy="126" r="4" fill="#C49050" stroke="#A07030" stroke-width="1"/>
-    <circle cx="632" cy="126" r="4" fill="#C49050" stroke="#A07030" stroke-width="1"/>
-    <text x="500" y="96" text-anchor="middle" font-family="'Fredoka One',cursive" font-size="26" fill="#FFD700" letter-spacing="5">HOTEL INSECTS</text>
-    <text x="500" y="118" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="11" fill="#F5C87A" letter-spacing="3">✦  Luxury Bug Suites · Est. 2024  ✦</text>
-
-    <!-- Wall frames -->
-    <!-- Left frame -->
-    <rect x="60" y="150" width="90" height="110" rx="4" fill="#D4B080" stroke="#8B6030" stroke-width="5" filter="url(#softShadow)"/>
-    <rect x="68" y="158" width="74" height="94" rx="2" fill="#EEF4FF"/>
-    <!-- butterfly in frame -->
-    <ellipse cx="105" cy="205" rx="22" ry="14" fill="#60A8E8" transform="rotate(-20,105,205)"/>
-    <ellipse cx="105" cy="205" rx="22" ry="14" fill="#80C0FF" transform="rotate(20,105,205)" opacity="0.7"/>
-    <ellipse cx="105" cy="205" rx="14" ry="9" fill="#4090D0" transform="rotate(-20,105,205)" opacity="0.6"/>
-    <ellipse cx="105" cy="210" rx="10" ry="16" fill="#3878C0" transform="rotate(-10,105,210)" opacity="0.5"/>
-    <line x1="105" y1="192" x2="105" y2="220" stroke="#2A3A20" stroke-width="1.5"/>
-    <!-- Right frame -->
-    <rect x="850" y="150" width="90" height="110" rx="4" fill="#D4B080" stroke="#8B6030" stroke-width="5" filter="url(#softShadow)"/>
-    <rect x="858" y="158" width="74" height="94" rx="2" fill="#EEF4FF"/>
-    <!-- beetle in frame -->
-    <ellipse cx="895" cy="200" rx="18" ry="22" fill="#2A6A30" stroke="#1A4A20" stroke-width="1.5"/>
-    <ellipse cx="895" cy="192" rx="16" ry="12" fill="#3A8A40" stroke="#1A4A20" stroke-width="1.5"/>
-    <circle cx="888" cy="188" r="4" fill="#1A2A10" stroke="#000" stroke-width="1"/>
-    <circle cx="902" cy="188" r="4" fill="#1A2A10" stroke="#000" stroke-width="1"/>
-    <line x1="880" y1="195" x2="865" y2="185" stroke="#1A4A20" stroke-width="2"/>
-    <line x1="880" y1="202" x2="862" y2="202" stroke="#1A4A20" stroke-width="2"/>
-    <line x1="882" y1="210" x2="866" y2="220" stroke="#1A4A20" stroke-width="2"/>
-
-    <!-- Plants -->
-    <!-- Left plant -->
-    <rect x="62" y="385" width="34" height="28" rx="5" fill="#C07048" stroke="#9A5030" stroke-width="2"/>
-    <rect x="58" y="382" width="42" height="8" rx="4" fill="#D08858" stroke="#9A5030" stroke-width="1.5"/>
-    <ellipse cx="79" cy="370" rx="18" ry="22" fill="#5CB85C" opacity="0.9"/>
-    <ellipse cx="68" cy="362" rx="13" ry="18" fill="#4CA84C"/>
-    <ellipse cx="91" cy="362" rx="13" ry="18" fill="#4CA84C"/>
-    <ellipse cx="79" cy="355" rx="10" ry="15" fill="#6DC86D"/>
-    <!-- Right plant -->
-    <rect x="904" y="385" width="34" height="28" rx="5" fill="#C07048" stroke="#9A5030" stroke-width="2"/>
-    <rect x="900" y="382" width="42" height="8" rx="4" fill="#D08858" stroke="#9A5030" stroke-width="1.5"/>
-    <ellipse cx="921" cy="360" rx="14" ry="24" fill="#5CB85C"/>
-    <ellipse cx="910" cy="355" rx="10" ry="18" fill="#4CA84C"/>
-    <ellipse cx="932" cy="358" rx="10" ry="16" fill="#4CA84C"/>
-
-    <!-- ===== FRONT DESK ===== -->
-    <!-- Desk back panel -->
-    <rect x="200" y="340" width="600" height="200" rx="14" fill="url(#deskGrad)"/>
-    <!-- Panel detail lines -->
-    <rect x="220" y="358" width="560" height="3" rx="1.5" fill="rgba(255,220,150,0.2)"/>
-    <rect x="220" y="370" width="560" height="2" rx="1" fill="rgba(0,0,0,0.1)"/>
-    <!-- Two vertical panel dividers -->
-    <rect x="430" y="360" width="4" height="150" rx="2" fill="rgba(0,0,0,0.15)"/>
-    <rect x="566" y="360" width="4" height="150" rx="2" fill="rgba(0,0,0,0.15)"/>
-    <!-- Panel decorative insets -->
-    <rect x="232" y="380" width="186" height="90" rx="6" fill="rgba(0,0,0,0.08)" stroke="rgba(255,200,100,0.15)" stroke-width="1.5"/>
-    <rect x="440" y="380" width="114" height="90" rx="6" fill="rgba(0,0,0,0.08)" stroke="rgba(255,200,100,0.15)" stroke-width="1.5"/>
-    <!-- Desktop top surface -->
-    <rect x="190" y="332" width="620" height="22" rx="6" fill="#E8C890" stroke="#C8A060" stroke-width="2"/>
-    <rect x="192" y="333" width="618" height="10" rx="5" fill="rgba(255,255,255,0.18)"/>
-
-    <!-- ===== SABEOL CHARACTER (Left half, big) ===== -->
-    <!-- Shadow under sabeol -->
-    <ellipse cx="295" cy="535" rx="85" ry="12" fill="rgba(0,0,0,0.15)"/>
-
-    <!-- SUIT / BODY LOWER (behind counter, only upper body shown) -->
-    <!-- Shirt collar white -->
-    <path d="M250,430 L295,415 L340,430" fill="white" stroke="#DDD" stroke-width="1"/>
-    <!-- Suit jacket -->
-    <path d="M200,470 Q200,400 295,390 Q390,400 390,470 L390,540 L200,540 Z" fill="url(#suitGrad)" stroke="#0A0A2A" stroke-width="3"/>
-    <!-- Left lapel -->
-    <path d="M250,430 L220,460 L248,500 L278,420 Z" fill="#3A3A6C" stroke="#0A0A2A" stroke-width="2"/>
-    <!-- Right lapel -->
-    <path d="M340,430 L370,460 L342,500 L312,420 Z" fill="#3A3A6C" stroke="#0A0A2A" stroke-width="2"/>
-    <!-- Tie -->
-    <path d="M285,428 L295,424 L305,428 L300,480 L295,490 L290,480 Z" fill="#F5A623" stroke="#D4850A" stroke-width="1.5"/>
-    <!-- Tie knot -->
-    <ellipse cx="295" cy="430" rx="8" ry="6" fill="#E8920A" stroke="#B07000" stroke-width="1"/>
-    <!-- Suit buttons -->
-    <circle cx="295" cy="466" r="5" fill="#F5C842" stroke="#C8A020" stroke-width="1.5"/>
-    <circle cx="295" cy="490" r="5" fill="#F5C842" stroke="#C8A020" stroke-width="1.5"/>
-    <!-- Pocket square -->
-    <path d="M214,418 L240,416 L238,406 L220,407 Z" fill="white" stroke="#CCC" stroke-width="1"/>
-    <!-- Name tag -->
-    <rect x="218" y="440" width="60" height="36" rx="5" fill="white" stroke="#EEE" stroke-width="1.5"/>
-    <rect x="222" y="444" width="52" height="5" rx="2" fill="#E05555"/>
-    <text x="248" y="451" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="5.5" fill="white" font-weight="900">지배인</text>
-    <text x="248" y="464" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="7.5" fill="#333" font-weight="900">사벌이</text>
-    <!-- Left arm (showing over desk slightly) -->
-    <path d="M206,460 Q175,470 170,510 Q168,525 185,528 Q200,530 208,510 Q215,485 225,470 Z" fill="url(#suitGrad)" stroke="#0A0A2A" stroke-width="2.5"/>
-    <!-- Left hand -->
-    <ellipse cx="180" cy="522" rx="16" ry="12" fill="#4A2415" stroke="#2A1008" stroke-width="2"/>
-    <!-- Right arm -->
-    <path d="M384,460 Q415,470 420,510 Q422,525 405,528 Q390,530 382,510 Q375,485 365,470 Z" fill="url(#suitGrad)" stroke="#0A0A2A" stroke-width="2.5"/>
-    <!-- Right hand gesturing open -->
-    <ellipse cx="410" cy="522" rx="16" ry="12" fill="#4A2415" stroke="#2A1008" stroke-width="2"/>
-
-    <!-- ===== HEAD ===== -->
-    <!-- Stag beetle horns/mandibles (most distinctive feature) -->
-    <!-- Left horn -->
-    <path d="M240,265 Q225,240 215,218 Q210,205 218,200 Q228,196 235,210 Q242,228 248,255 Z" fill="#1C0A06" stroke="#0A0400" stroke-width="2.5"/>
-    <!-- Left horn branch -->
-    <path d="M225,228 Q212,220 208,210 Q206,202 214,200 Q222,200 226,212 Z" fill="#1C0A06" stroke="#0A0400" stroke-width="2"/>
-    <!-- Left horn branch 2 -->
-    <path d="M232,210 Q218,205 215,196 Q214,188 221,188 Q229,190 231,202 Z" fill="#1C0A06" stroke="#0A0400" stroke-width="2"/>
-    <!-- Right horn -->
-    <path d="M350,265 Q365,240 375,218 Q380,205 372,200 Q362,196 355,210 Q348,228 342,255 Z" fill="#1C0A06" stroke="#0A0400" stroke-width="2.5"/>
-    <!-- Right horn branch -->
-    <path d="M365,228 Q378,220 382,210 Q384,202 376,200 Q368,200 364,212 Z" fill="#1C0A06" stroke="#0A0400" stroke-width="2"/>
-    <!-- Right horn branch 2 -->
-    <path d="M358,210 Q372,205 375,196 Q376,188 369,188 Q361,190 359,202 Z" fill="#1C0A06" stroke="#0A0400" stroke-width="2"/>
-
-    <!-- Head main shape — rounded, friendly (주니토니 style: big round head) -->
-    <ellipse cx="295" cy="320" rx="100" ry="95" fill="url(#bodyGrad)" stroke="#0A0400" stroke-width="3.5"/>
-    <!-- Head shine/highlight -->
-    <ellipse cx="260" cy="280" rx="28" ry="20" fill="rgba(255,255,255,0.08)" transform="rotate(-20,260,280)"/>
-
-    <!-- Antennae -->
-    <path d="M258,232 Q248,210 238,196" fill="none" stroke="#1C0A06" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="236" cy="193" r="7" fill="#1C0A06" stroke="#0A0400" stroke-width="2"/>
-    <path d="M332,232 Q342,210 352,196" fill="none" stroke="#1C0A06" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="354" cy="193" r="7" fill="#1C0A06" stroke="#0A0400" stroke-width="2"/>
-
-    <!-- ===== EYES ===== (주니토니: big white eyes, simple cute pupils) -->
-    <!-- Left eye white -->
-    <ellipse cx="265" cy="308" rx="28" ry="30" fill="white" stroke="#0A0400" stroke-width="3"/>
-    <!-- Left eye shine ring (no monocle on this one) -->
-    <!-- Left pupil -->
-    <circle cx="268" cy="310" r="16" fill="#1A0A2E"/>
-    <!-- Left pupil shine -->
-    <circle cx="274" cy="304" r="5" fill="white"/>
-    <circle cx="262" cy="316" r="2.5" fill="white" opacity="0.6"/>
-    <!-- Left eyelid (for blinking) -->
-    <ellipse cx="265" cy="295" rx="29" ry="30" fill="url(#bodyGrad)" id="lid-l" transform="translate(0,-30)"/>
-
-    <!-- Right eye (monocle) -->
-    <!-- Monocle rim -->
-    <ellipse cx="328" cy="308" rx="34" ry="36" fill="none" stroke="#F5C842" stroke-width="5"/>
-    <!-- Monocle lens tint -->
-    <ellipse cx="328" cy="308" rx="33" ry="35" fill="#F5C84210"/>
-    <!-- Right eye white -->
-    <ellipse cx="328" cy="308" rx="28" ry="30" fill="white" stroke="#0A0400" stroke-width="2"/>
-    <!-- Right pupil -->
-    <circle cx="331" cy="310" r="16" fill="#1A0A2E"/>
-    <!-- Right pupil shine -->
-    <circle cx="337" cy="304" r="5" fill="white"/>
-    <circle cx="325" cy="316" r="2.5" fill="white" opacity="0.6"/>
-    <!-- Right eyelid -->
-    <ellipse cx="328" cy="295" rx="29" ry="30" fill="url(#bodyGrad)" id="lid-r" transform="translate(0,-30)"/>
-    <!-- Monocle chain -->
-    <path d="M362,330 Q372,345 368,370 Q364,385 358,390" fill="none" stroke="#F5C842" stroke-width="2" stroke-dasharray="3,2"/>
-
-    <!-- Smile mouth (big friendly arc) -->
-    <path d="M255,358 Q295,385 335,358" fill="none" stroke="#5A2A10" stroke-width="4" stroke-linecap="round"/>
-    <!-- Cheeks (pink blush) -->
-    <ellipse cx="228" cy="348" rx="20" ry="13" fill="#FF9090" opacity="0.35"/>
-    <ellipse cx="362" cy="348" rx="20" ry="13" fill="#FF9090" opacity="0.35"/>
-    <!-- Nose (tiny) -->
-    <ellipse cx="295" cy="342" rx="8" ry="5" fill="rgba(80,25,5,0.4)"/>
-
-    <!-- ===== BELT / SUIT TOP ===== -->
-    <rect x="225" y="400" width="140" height="14" rx="7" fill="#8B4A28" stroke="#6B2A10" stroke-width="2"/>
-    <rect x="283" y="396" width="24" height="20" rx="4" fill="#D4A030" stroke="#B08020" stroke-width="1.5"/>
-
-    <!-- ===== COUNTER TOP ITEMS (right side) ===== -->
-    <!-- Flower vase -->
-    <rect x="630" y="302" width="24" height="32" rx="6" fill="#7AAEC8" stroke="#5A8EB0" stroke-width="2"/>
-    <rect x="626" y="298" width="32" height="8" rx="4" fill="#8AC0DA" stroke="#5A8EB0" stroke-width="1.5"/>
-    <circle cx="626" cy="290" r="9" fill="#FF6B9D"/>
-    <circle cx="642" cy="285" r="9" fill="#FF9B2D"/>
-    <circle cx="654" cy="291" r="9" fill="#FF6B9D"/>
-    <circle cx="634" cy="278" r="9" fill="#FFD700"/>
-    <circle cx="648" cy="280" r="7" fill="#FF9B2D" opacity="0.8"/>
-
-    <!-- Guest book -->
-    <rect x="692" y="296" width="58" height="40" rx="5" fill="#8B4040" stroke="#6B2020" stroke-width="2"/>
-    <rect x="692" y="296" width="8" height="40" rx="3" fill="#6B2020"/>
-    <text x="721" y="316" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="7" fill="rgba(255,220,180,0.8)" font-weight="700">GUEST</text>
-    <text x="721" y="327" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="7" fill="rgba(255,220,180,0.8)" font-weight="700">BOOK</text>
-
-    <!-- ===== BELL (right side of counter) ===== -->
-    <!-- Bell stem/top -->
-    <rect x="808" y="284" width="14" height="18" rx="7" fill="#C8A000" stroke="#A08000" stroke-width="2"/>
-    <!-- Bell body -->
-    <ellipse cx="815" cy="310" rx="34" ry="40" fill="url(#bellRad)" stroke="#A08000" stroke-width="3"/>
-    <!-- Bell highlight -->
-    <ellipse cx="803" cy="294" rx="10" ry="16" fill="rgba(255,255,255,0.28)" transform="rotate(-10,803,294)"/>
-    <!-- Bell rim -->
-    <rect x="782" y="342" width="66" height="12" rx="6" fill="#DAA520" stroke="#A08000" stroke-width="2"/>
-    <rect x="786" y="340" width="58" height="8" rx="4" fill="#FFD700" opacity="0.6"/>
-    <!-- Bell base plate -->
-    <ellipse cx="815" cy="358" rx="28" ry="8" fill="#B8860B" stroke="#906800" stroke-width="2"/>
-    <!-- Bell clapper -->
-    <ellipse cx="815" cy="360" rx="8" ry="6" fill="#906800"/>
-    <!-- Bell label -->
-    <text x="815" y="386" text-anchor="middle" font-family="'Fredoka One',cursive" font-size="13" fill="#D4850A">👆 RING!</text>
-
-    <!-- ===== FLOOR ===== -->
-    <rect x="0" y="540" width="1000" height="60" fill="#A06840"/>
-    <!-- Floor tiles suggestion -->
-    <line x1="0" y1="545" x2="1000" y2="545" stroke="rgba(0,0,0,0.12)" stroke-width="2"/>
-    <line x1="125" y1="545" x2="125" y2="600" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-    <line x1="250" y1="545" x2="250" y2="600" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-    <line x1="375" y1="545" x2="375" y2="600" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-    <line x1="500" y1="545" x2="500" y2="600" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-    <line x1="625" y1="545" x2="625" y2="600" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-    <line x1="750" y1="545" x2="750" y2="600" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-    <line x1="875" y1="545" x2="875" y2="600" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-  </svg>
+  <!-- 배경 이미지 -->
+  <img id="lobby-bg" src="00_Hotel%20Lobby.png" alt="Hotel Lobby">
+  <!-- 사벌이 (둥실둥실 애니메이션) -->
+  <img id="lobby-sabeol" src="00_Hotel%20Lobby_%EC%82%AC%EB%B2%8C%EC%9D%B4.png" alt="사벌이">
 
   <!-- Bell clickable hit area -->
-  <div id="bell-hit" onclick="ringBell()" style="position:absolute;right:16%;bottom:10%;width:10%;height:25%;"></div>
+  <div id="bell-hit" onclick="ringBell()" style="position:absolute;right:5%;bottom:8%;width:14%;height:28%;cursor:pointer;"></div>
+  <!-- RING! 텍스트 힌트 -->
+  <div id="bell-hint" style="position:absolute;right:5%;bottom:37%;font-family:'Fredoka One',cursive;font-size:clamp(.8rem,2vw,1.1rem);color:#8B5E3C;opacity:.7;pointer-events:none;animation:ringHint 2s ease-in-out infinite;">🔔 Ring!</div>
 
   <!-- Speech bubble (appears top right of sabeol) -->
   <div class="lobby-bubble" id="lobby-bubble">
@@ -733,11 +684,49 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
     </button>
   </div>
   <div class="sub-btns">
-    <button class="sub-btn" onclick="soon('📖','Collection','도감 스티커가 곧 오픈됩니다!')">📖 Collection</button>
-    <button class="sub-btn" onclick="soon('🏆','Hall of Fame','명예의 전당이 곧 오픈됩니다!')">🏆 Hall of Fame</button>
-    <button class="sub-btn" onclick="soon('🔔','Alerts','알림 기능이 곧 오픈됩니다!')">🔔 Alerts</button>
+    <button class="sub-btn" onclick="goToCollection()">📖 Collection</button>
   </div>
   <div class="counter-strip"></div>
+</div>
+
+<!-- ROOM DETAIL SCREEN -->
+<div id="screen-roomdetail" class="screen">
+  <div class="rd-header">
+    <button class="ci-back" id="rd-back-btn">← Back</button>
+    <span class="rd-room-num" id="rd-room-num"></span>
+    <span class="rd-room-type" id="rd-room-type"></span>
+  </div>
+  <div class="rd-body" id="rd-body">
+    <!-- 동적으로 채워짐 -->
+  </div>
+  <!-- 자연으로 돌아가는 오버레이 -->
+  <div class="rd-release-overlay" id="rd-release-overlay">
+    <div class="rd-release-emoji" id="rd-release-emoji">🦋</div>
+    <div class="rd-release-title">자연으로 돌아갔어요!</div>
+    <div class="rd-release-sub" id="rd-release-sub"></div>
+    <button class="rd-release-done-btn" onclick="afterCheckout()">도감에서 확인하기 →</button>
+  </div>
+</div>
+
+<!-- COLLECTION SCREEN -->
+<div id="screen-collection" class="screen">
+  <div class="col-header">
+    <button class="col-back" onclick="goToMenu()">← Back</button>
+    <div class="col-title">📖 도감</div>
+    <div class="col-count" id="col-count"></div>
+  </div>
+  <div id="col-empty" class="col-empty" style="display:none">
+    <div class="col-empty-icon">📖</div>
+    <div class="col-empty-text">아직 도감이 비어있어요!<br>곤충을 키워서 첫 스티커를 받아보세요.</div>
+  </div>
+  <div class="passport-book" id="passport-book">
+    <div class="passport-page" id="passport-page"></div>
+  </div>
+  <div class="col-nav" id="col-nav" style="display:none">
+    <button class="col-nav-btn" id="col-prev" onclick="colPage(-1)">←</button>
+    <div class="col-page-indicator" id="col-page-indicator"></div>
+    <button class="col-nav-btn" id="col-next" onclick="colPage(1)">→</button>
+  </div>
 </div>
 
 <!-- ALL ROOMS SCREEN -->
@@ -778,7 +767,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
     <div class="ci-panel-title">Which insect would you like to check in?</div>
     <div class="ci-panel-sub">어떤 곤충의 알을 입주시킬까요?</div>
     <div class="insect-grid" id="insect-grid"></div>
-    <button class="ci-next-btn" id="btn-step1-next" onclick="ciGoStep2()" disabled style="margin-top:16px">
+    <div class="ci-name-box" id="ci-name-box" style="display:none;margin-top:14px;">
+      <label class="form-label">✏️ 이 곤충에게 이름을 붙여주세요!</label>
+      <input class="form-input" id="inp-insect-name" maxlength="12" placeholder="예: 나비야, 버찌, 꿀순이..." autocomplete="off"/>
+    </div>
+    <button class="ci-next-btn" id="btn-step1-next" onclick="ciGoStep2()" disabled style="margin-top:12px">
       Next: Confirm →
     </button>
   </div>
@@ -792,6 +785,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
       <div class="confirm-row">
         <span class="confirm-label">🐛 Insect</span>
         <span class="confirm-val" id="confirm-insect"></span>
+      </div>
+      <div class="confirm-row">
+        <span class="confirm-label">✏️ 이름</span>
+        <span class="confirm-val" id="confirm-nickname"></span>
       </div>
       <div class="confirm-row">
         <span class="confirm-label">🏠 Room Type</span>
@@ -846,6 +843,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
         <button class="ci-done-btn ci-done-ghost" onclick="goToMenu()">🏠 Back to Lobby</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- 성충 알림 팝업 -->
+<div class="adult-alert-overlay" id="adult-alert-overlay">
+  <div class="adult-alert-card">
+    <div style="text-align:center;font-size:2.5rem">🎉</div>
+    <div class="adult-alert-title">성충이 된 곤충이 있어요!</div>
+    <div class="adult-alert-sub">1주일 안에 체크아웃해주세요</div>
+    <div id="adult-alert-list"></div>
+    <button class="adult-alert-close" onclick="closeAdultAlert()">나중에 볼게요</button>
   </div>
 </div>
 
@@ -1015,9 +1023,59 @@ function loginOk(u){
   user=u;
   document.getElementById('menu-uname').textContent=u.name;
   show('menu');
-  const msg=`Welcome${u.insects&&u.insects.length===0?'':', back'}, ${u.name}! How may I assist you today?`;
+  const msg=`Welcome back, ${u.name}! How may I assist you today?`;
   document.getElementById('menu-bubble-text').textContent=msg;
   speak(msg);
+  // 로그인 후 성충 체크
+  setTimeout(checkAdultInsects, 800);
+}
+
+async function checkAdultInsects() {
+  if (!fbReady()) { setTimeout(checkAdultInsects, 500); return; }
+  try {
+    const snap = await fns.getDocs(fns.query(
+      fns.collection(db, 'rooms'),
+      fns.where('guestName', '==', user.name),
+      fns.where('status', '==', 'active')
+    ));
+    const now = Date.now();
+    const adults = [];
+    snap.forEach(d => {
+      const room = { id: d.id, ...d.data() };
+      // 성충 여부 확인 (adultTime 기준)
+      if (room.adultTime && now >= room.adultTime) {
+        adults.push(room);
+      }
+    });
+    if (adults.length === 0) return;
+
+    // 팝업 표시
+    const list = document.getElementById('adult-alert-list');
+    list.innerHTML = '';
+    adults.forEach(room => {
+      const item = document.createElement('div');
+      item.className = 'adult-alert-item';
+      item.innerHTML = `
+        <div class="adult-alert-emoji">${room.insectEmoji}</div>
+        <div class="adult-alert-info">
+          <div class="adult-alert-name">${room.nickname || room.insectName}</div>
+          <div class="adult-alert-detail">${room.insectName} · #${String(room.roomNumber).padStart(3,'0')} ${ROOM_LABEL[room.roomType]||''}</div>
+        </div>
+        <div style="font-size:.8rem;color:var(--gold);font-weight:800;">보러가기 →</div>
+      `;
+      item.onclick = () => {
+        closeAdultAlert();
+        openRoomDetail(room, 'myroom');
+      };
+      list.appendChild(item);
+    });
+    document.getElementById('adult-alert-overlay').classList.add('on');
+    speak(`${user.name}, 성충이 된 곤충이 ${adults.length}마리 있어요! 어서 확인해보세요!`);
+  } catch(e) { console.error(e); }
+}
+
+function closeAdultAlert() {
+  document.getElementById('adult-alert-overlay').classList.remove('on');
 }
 function logout(){user=null;resetForms();show('lobby');}
 function soon(icon,title,text){
@@ -1130,6 +1188,7 @@ async function loadMyRoom() {
 
       const card = document.createElement('div');
       card.className = 'mr-card' + (isAdult ? ' mr-card-done' : '');
+      card.onclick = () => openRoomDetail(room, 'myroom');
       card.innerHTML = `
         <div class="mr-card-room">#${String(room.roomNumber).padStart(3,'0')} ${room.roomType ? '· '+ROOM_LABEL[room.roomType] : ''}</div>
         <div class="mr-card-emoji">${stage ? stage.emoji : room.insectEmoji}</div>
@@ -1190,6 +1249,7 @@ async function loadAllRooms() {
 
       const card = document.createElement('div');
       card.className = 'ar-card' + (isMine ? ' ar-card-mine' : '');
+      card.onclick = () => openRoomDetail(room, 'allrooms');
       card.innerHTML = `
         ${isMine ? '<div class="ar-mine-badge">내 방 ⭐</div>' : ''}
         <div class="ar-card-room">#${String(room.roomNumber).padStart(3,'0')} · ${ROOM_LABEL[room.roomType] || ''}</div>
@@ -1210,6 +1270,285 @@ async function loadAllRooms() {
   }
 }
 
+
+
+
+// ========== COLLECTION ==========
+let colItems = [];
+let colCurrentPage = 0;
+
+function goToCollection() {
+  show('collection');
+  loadCollection();
+}
+
+async function loadCollection() {
+  if (!fbReady()) { setTimeout(loadCollection, 500); return; }
+  const userKey = user.name.toLowerCase().replace(/\s+/g,'_');
+  try {
+    const snap = await fns.getDoc(fns.doc(db, 'users', userKey));
+    const data = snap.data();
+    colItems = (data && data.collection) ? data.collection : [];
+    // 최신순
+    colItems.sort((a,b) => (b.checkoutTime||0) - (a.checkoutTime||0));
+    colCurrentPage = 0;
+    renderCollectionPage();
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+function renderCollectionPage() {
+  const empty = document.getElementById('col-empty');
+  const book = document.getElementById('passport-book');
+  const nav = document.getElementById('col-nav');
+  const countEl = document.getElementById('col-count');
+
+  if (colItems.length === 0) {
+    empty.style.display = 'flex';
+    empty.style.flexDirection = 'column';
+    empty.style.alignItems = 'center';
+    book.style.display = 'none';
+    nav.style.display = 'none';
+    countEl.textContent = '';
+    return;
+  }
+
+  empty.style.display = 'none';
+  book.style.display = 'block';
+  nav.style.display = 'flex';
+  countEl.textContent = `총 ${colItems.length}마리`;
+
+  const item = colItems[colCurrentPage];
+  const checkoutDate = item.checkoutTime ? new Date(item.checkoutTime) : new Date();
+  const checkinDate = item.checkinTime ? new Date(item.checkinTime) : new Date();
+  const fmt = d => `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  const fmtFull = d => `${fmt(d)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  const pageNum = colCurrentPage + 1;
+
+  document.getElementById('passport-page').innerHTML = `
+    <div class="pp-spine">
+      <div class="pp-spine-dot"></div>
+      <div class="pp-spine-dot"></div>
+      <div class="pp-spine-dot"></div>
+      <div class="pp-spine-dot"></div>
+    </div>
+    <div class="pp-content">
+      <div class="pp-header">
+        <div class="pp-passport-label">🌿 곤충 여권</div>
+        <div class="pp-num">No. ${String(pageNum).padStart(3,'0')}</div>
+      </div>
+
+      <div class="pp-insect-area">
+        <div class="pp-emoji-box">${item.insectEmoji || '🐛'}</div>
+        <div class="pp-details">
+          <div class="pp-nickname">${item.nickname || item.insectName}</div>
+          <div class="pp-species">${item.insectName} · ${item.insectNameEn || ''}</div>
+          <div class="pp-owner">👤 ${user.name}의 ${pageNum}번째 곤충</div>
+        </div>
+      </div>
+
+      <div class="pp-rows">
+        <div class="pp-row">
+          <span class="pp-row-label">🥚 태어난 날</span>
+          <span class="pp-row-val">${fmt(checkinDate)}</span>
+        </div>
+        <div class="pp-row">
+          <span class="pp-row-label">🦋 성충이 된 날</span>
+          <span class="pp-row-val">${fmtFull(checkoutDate)}</span>
+        </div>
+        <div class="pp-row">
+          <span class="pp-row-label">🏠 살던 곳</span>
+          <span class="pp-row-val">${ROOM_LABEL[item.roomType] || ''}</span>
+        </div>
+      </div>
+
+      <div class="pp-memo" id="pp-memo-${colCurrentPage}"
+        onclick="editMemo(${colCurrentPage})">${item.memo || ''}</div>
+
+      <div class="pp-stamp">
+        <div class="pp-stamp-text">자연으로<br>돌아감<br>✓</div>
+      </div>
+    </div>
+  `;
+
+  // 네비게이션
+  document.getElementById('col-page-indicator').textContent = `${pageNum} / ${colItems.length}`;
+  document.getElementById('col-prev').disabled = colCurrentPage === 0;
+  document.getElementById('col-next').disabled = colCurrentPage === colItems.length - 1;
+}
+
+function colPage(dir) {
+  colCurrentPage = Math.max(0, Math.min(colItems.length - 1, colCurrentPage + dir));
+  renderCollectionPage();
+}
+
+async function editMemo(idx) {
+  const current = colItems[idx].memo || '';
+  const memo = prompt('메모를 입력하세요 (최대 30자)', current);
+  if (memo === null) return;
+  const trimmed = memo.trim().slice(0, 30);
+  colItems[idx].memo = trimmed;
+
+  // Firebase 저장
+  try {
+    const userKey = user.name.toLowerCase().replace(/\s+/g,'_');
+    const userRef = fns.doc(db, 'users', userKey);
+    const snap = await fns.getDoc(userRef);
+    const data = snap.data();
+    data.collection = colItems.slice().sort((a,b) => (b.checkoutTime||0)-(a.checkoutTime||0));
+    // 순서 맞춰서 저장 (colItems는 이미 최신순)
+    data.collection[idx].memo = trimmed;
+    await fns.setDoc(userRef, data);
+    renderCollectionPage();
+  } catch(e) { console.error(e); }
+}
+
+// ========== ROOM DETAIL ==========
+let currentRoomData = null;
+let fromScreen = 'myroom';
+
+const ROOM_BG = {
+  flower:'rd-bg-flower', pond:'rd-bg-pond', valley:'rd-bg-valley',
+  tree:'rd-bg-tree', grass:'rd-bg-grass'
+};
+
+function openRoomDetail(room, from) {
+  currentRoomData = room;
+  fromScreen = from;
+  show('roomdetail');
+
+  // 배경색 설정
+  const body = document.getElementById('rd-body');
+  const screen = document.getElementById('screen-roomdetail');
+  screen.className = 'screen active ' + (ROOM_BG[room.roomType] || '');
+
+  // 헤더
+  document.getElementById('rd-room-num').textContent = `#${String(room.roomNumber).padStart(3,'0')}`;
+  document.getElementById('rd-room-type').textContent = ROOM_LABEL[room.roomType] || '';
+  document.getElementById('rd-back-btn').onclick = () => { show(fromScreen); };
+
+  // 현재 단계 계산
+  const now = Date.now();
+  let currentStage = 0;
+  if (room.stageSchedule) {
+    for (let i = 0; i < room.stageSchedule.length; i++) {
+      if (now >= room.stageSchedule[i].startTime) currentStage = i;
+      else break;
+    }
+  }
+  const isAdult = currentStage === 3;
+  const stage = room.stageSchedule ? room.stageSchedule[currentStage] : null;
+  const isMine = room.guestName === user.name;
+
+  // 다음 단계까지 시간
+  const nextStage = room.stageSchedule && !isAdult ? room.stageSchedule[currentStage + 1] : null;
+  const msLeft = nextStage ? nextStage.startTime - now : 0;
+  const daysLeft = msLeft > 0 ? Math.ceil(msLeft / (1000*60*60*24)) : 0;
+  const hoursLeft = msLeft > 0 ? Math.ceil(msLeft / (1000*60*60)) : 0;
+  const timeText = isAdult ? '성충이 됐어요! 🎉' :
+    daysLeft >= 1 ? `다음 단계까지 약 ${daysLeft}일` :
+    hoursLeft > 0 ? `다음 단계까지 약 ${hoursLeft}시간` : '곧 다음 단계!';
+
+  // 단계 바 HTML
+  const stageBarHTML = room.stageSchedule ? room.stageSchedule.map((s, i) => `
+    ${i > 0 ? '<div class="rd-stage-arrow">→</div>' : ''}
+    <div class="rd-stage-item ${i < currentStage ? 'done' : i === currentStage ? 'current' : ''}">
+      <div class="rd-stage-emoji">${s.emoji}</div>
+      <div class="rd-stage-label">${s.name}</div>
+    </div>
+  `).join('') : '';
+
+  // 체크아웃 만료일 계산 (성충 시점 + 7일)
+  const adultTime = room.adultTime || (room.checkinTime + 6*24*60*60*1000);
+  const checkoutDeadline = new Date(adultTime + 7*24*60*60*1000);
+  const fmtDate = d => `${d.getMonth()+1}/${d.getDate()}`;
+
+  body.innerHTML = `
+    <div class="rd-illustration">
+      <div class="rd-illust-emoji">${stage ? stage.emoji : room.insectEmoji}</div>
+      <div class="rd-illust-placeholder">일러스트 준비중</div>
+    </div>
+
+    <div class="rd-info">
+      <div class="rd-info-name">${room.insectName} · ${room.guestName}의 방</div>
+      <div class="rd-info-row">
+        <span class="rd-info-label">현재 단계</span>
+        <span class="rd-info-val">${stage ? stage.emoji + ' ' + stage.name : ''}</span>
+      </div>
+      <div class="rd-info-row">
+        <span class="rd-info-label">⏱ 시간</span>
+        <span class="rd-info-val">${timeText}</span>
+      </div>
+      <div class="rd-stage-bar">${stageBarHTML}</div>
+    </div>
+
+    ${isAdult && isMine ? `
+      <div class="rd-adult-banner">
+        <div class="rd-adult-title">🎉 성충이 됐어요!</div>
+        <div class="rd-adult-sub">${fmtDate(checkoutDeadline)}까지 체크아웃해야 해요</div>
+      </div>
+      <button class="rd-checkout-btn" onclick="doCheckout()">🌿 자연으로 돌려보내기</button>
+    ` : isAdult ? `
+      <div class="rd-adult-banner">
+        <div class="rd-adult-title">🎉 성충이 됐어요!</div>
+        <div class="rd-adult-sub">${room.guestName}의 ${room.insectName}이 다 자랐어요!</div>
+      </div>
+    ` : ''}
+  `;
+
+  // 릴리즈 오버레이 초기화
+  document.getElementById('rd-release-overlay').classList.remove('on');
+}
+
+async function doCheckout() {
+  if (!currentRoomData) return;
+  if (!fbReady()) { alert('서버 연결 중입니다. 잠시 후 다시 시도해주세요.'); return; }
+
+  try {
+    const insect = currentRoomData;
+
+    // 1. rooms 문서 status → checkedout
+    await fns.updateDoc(fns.doc(db, 'rooms', insect.id), {
+      status: 'checkedout',
+      checkoutTime: Date.now()
+    });
+
+    // 2. 도감에 스티커 추가 (users/{name}/collection 배열에 push)
+    const userKey = user.name.toLowerCase().replace(/\s+/g,'_');
+    const userRef = fns.doc(db, 'users', userKey);
+    const userSnap = await fns.getDoc(userRef);
+    const userData = userSnap.data();
+    const col = userData.collection || [];
+    col.push({
+      insectId: insect.insectId,
+      insectName: insect.insectName,
+      insectEmoji: insect.insectEmoji,
+      roomType: insect.roomType,
+      checkinTime: insect.checkinTime,
+      checkoutTime: Date.now(),
+    });
+    await fns.setDoc(userRef, { ...userData, collection: col });
+
+    // 3. 자연으로 돌아가는 애니메이션
+    document.getElementById('rd-release-emoji').textContent = insect.insectEmoji;
+    document.getElementById('rd-release-sub').textContent =
+      `${insect.insectName}이(가) 자연으로 돌아갔어요!\n도감에 스티커가 추가됐어요 🌿`;
+    document.getElementById('rd-release-overlay').classList.add('on');
+
+    // user 로컬 업데이트
+    user.collection = col;
+
+  } catch(e) {
+    console.error(e);
+    alert('체크아웃 중 오류가 발생했어요. 다시 시도해주세요.');
+  }
+}
+
+function afterCheckout() {
+  goToCollection();
+}
+
 // ========== STEP DOTS ==========
 function ciSetStep(n) {
   [1,2].forEach(i => {
@@ -1228,6 +1567,7 @@ function ciReset() {
   document.getElementById('ci-step1').style.display = 'block';
   ciSetStep(1);
   document.getElementById('btn-step1-next').disabled = true;
+  document.getElementById('ci-name-box').style.display = 'none';
 }
 
 // ========== STEP 1: INSECT GRID ==========
@@ -1254,7 +1594,10 @@ function selectInsect(id) {
   document.querySelectorAll('.insect-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('icard-' + id).classList.add('selected');
   document.getElementById('btn-step1-next').disabled = false;
-  speak(`${ci.insect.nameEn}! Great choice!`);
+  document.getElementById('ci-name-box').style.display = 'block';
+  document.getElementById('inp-insect-name').value = '';
+  document.getElementById('inp-insect-name').placeholder = `예: ${ci.insect.name}이, 꿀순이, 버찌...`;
+  speak(`${ci.insect.nameEn}! Great choice! Give it a name!`);
 }
 
 // ========== STEP 2: CONFIRM (방은 곤충에 따라 자동 배정) ==========
@@ -1317,14 +1660,18 @@ function ciGoConfirm() {
   const adult = new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000);
   const fmt = d => `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
 
+  const nickname = document.getElementById('inp-insect-name').value.trim() || ci.insect.name;
+  ci.nickname = nickname;
+
   document.getElementById('confirm-icon').textContent = ci.insect.emoji;
   document.getElementById('confirm-insect').textContent = `${ci.insect.name} (${ci.insect.nameEn})`;
+  document.getElementById('confirm-nickname').textContent = nickname;
   document.getElementById('confirm-room').textContent = ROOM_LABEL[ci.room.id];
   document.getElementById('confirm-guest').textContent = user.name;
   document.getElementById('confirm-date').textContent = fmt(now);
   document.getElementById('confirm-adult').textContent = fmt(adult);
 
-  speak(`Ready to check in your ${ci.insect.nameEn} egg into the ${ci.room.nameEn}?`);
+  speak(`Ready to check in ${nickname}?`);
 }
 
 // ========== DO CHECK IN (트랜잭션으로 방 번호 순서 보장) ==========
@@ -1379,6 +1726,7 @@ async function doCheckin() {
       insectName: insect.name,
       insectNameEn: insect.nameEn,
       insectEmoji: insect.emoji,
+      nickname: ci.nickname || insect.name,
       guestName: user.name,
       checkinTime: now,
       adultTime: now + 6 * 24 * 60 * 60 * 1000,
