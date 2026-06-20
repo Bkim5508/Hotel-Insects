@@ -143,6 +143,64 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 .sub-btn:hover{background:rgba(255,255,255,.9);border-color:var(--gold);}
 .counter-strip{position:absolute;bottom:0;left:0;right:0;height:27%;background:linear-gradient(180deg,#D4956A,#B8743E);border-top:5px solid #E8A870;z-index:5;}
 
+
+
+/* ALL ROOMS SCREEN */
+#screen-allrooms{background:linear-gradient(160deg,#FFF8EE,#FDE8C8);flex-direction:column;overflow:hidden;}
+.ar-header{width:100%;display:flex;align-items:center;padding:14px 20px;gap:12px;flex-shrink:0;border-bottom:2px solid rgba(245,166,35,.15);}
+.ar-title{font-family:var(--font-d);color:var(--wood2);font-size:1.3rem;}
+.ar-count{margin-left:auto;font-size:.8rem;color:#AAA;font-weight:700;}
+.ar-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:14px;padding:16px 20px;overflow-y:auto;flex:1;}
+.ar-card{
+  background:#fff;border:2.5px solid #EEE;border-radius:20px;
+  padding:16px 12px;text-align:center;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06);
+  position:relative;min-height:0;
+}
+.ar-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(245,166,35,.2);border-color:var(--gold);}
+.ar-card-mine{border-color:var(--gold);background:linear-gradient(160deg,#FFFBF0,#FFF3D0);}
+.ar-card-room{font-size:.6rem;font-weight:800;color:#AAA;text-transform:uppercase;letter-spacing:1px;}
+.ar-card-emoji{font-size:2.6rem;line-height:1;}
+.ar-card-name{font-size:.82rem;font-weight:900;color:#333;}
+.ar-card-guest{font-size:.65rem;color:#AAA;font-weight:700;}
+.ar-card-stage{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:10px;background:#FFF3E0;color:#C87000;}
+.ar-mine-badge{position:absolute;top:7px;right:7px;font-size:.55rem;background:var(--gold);color:#fff;padding:2px 6px;border-radius:6px;font-weight:800;}
+.ar-stage-bar{display:flex;gap:3px;margin-top:2px;}
+.ar-stage-dot{width:8px;height:8px;border-radius:50%;background:#EEE;}
+.ar-stage-dot.done{background:var(--gold);}
+.ar-stage-dot.current{background:var(--gold);box-shadow:0 0 0 2px rgba(245,166,35,.3);}
+.ar-empty{grid-column:1/-1;text-align:center;padding:40px 20px;color:#BBB;}
+
+/* MY ROOM SCREEN */
+#screen-myroom{background:linear-gradient(160deg,#FFF8EE,#FDE8C8);flex-direction:column;overflow:hidden;}
+.mr-header{width:100%;display:flex;align-items:center;padding:14px 20px;gap:12px;flex-shrink:0;border-bottom:2px solid rgba(245,166,35,.15);}
+.mr-title{font-family:var(--font-d);color:var(--wood2);font-size:1.3rem;}
+.mr-count{margin-left:auto;font-size:.8rem;color:#AAA;font-weight:700;}
+.mr-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:14px;padding:16px 20px;overflow-y:auto;flex:1;}
+.mr-card{
+  background:#fff;border:2.5px solid #EEE;border-radius:20px;
+  padding:16px 12px;text-align:center;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06);
+  position:relative;min-height:0;
+}
+.mr-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(245,166,35,.2);border-color:var(--gold);}
+.mr-card-room{font-size:.6rem;font-weight:800;color:#AAA;text-transform:uppercase;letter-spacing:1px;}
+.mr-card-emoji{font-size:2.6rem;line-height:1;}
+.mr-card-name{font-size:.82rem;font-weight:900;color:#333;}
+.mr-card-stage{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:10px;background:#FFF3E0;color:#C87000;}
+.mr-card-days{font-size:.65rem;color:#BBB;font-weight:600;}
+.mr-card-done{border-color:#6DD36D;background:linear-gradient(160deg,#F0FFF0,#E0FFE0);}
+.mr-card-done .mr-card-stage{background:#D0FFD0;color:#2A8A2A;}
+.mr-stage-bar{display:flex;gap:3px;margin-top:4px;}
+.mr-stage-dot{width:8px;height:8px;border-radius:50%;background:#EEE;}
+.mr-stage-dot.done{background:var(--gold);}
+.mr-stage-dot.current{background:var(--gold);box-shadow:0 0 0 2px rgba(245,166,35,.3);}
+.mr-empty{grid-column:1/-1;text-align:center;padding:40px 20px;color:#BBB;}
+.mr-empty-icon{font-size:3rem;margin-bottom:10px;}
+.mr-empty-text{font-size:.9rem;font-weight:700;}
+
 /* OVERLAY */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;}
 .overlay.on{display:flex;}
@@ -254,7 +312,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 .ci-success-sub{color:#888;font-size:.85rem;line-height:1.6;margin-bottom:24px;}
 .ci-success-card{background:#fff;border:2px solid #EEE;border-radius:16px;padding:16px 20px;margin-bottom:20px;text-align:left;}
 .ci-success-room{font-size:3rem;text-align:center;margin-bottom:8px;}
-.ci-done-btn{padding:12px 32px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:14px;color:#fff;font-size:1rem;font-weight:900;cursor:pointer;font-family:var(--font-b);}
+.ci-done-btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;margin:0 auto;}
+.ci-done-btn{padding:13px 24px;border:none;border-radius:14px;font-size:.95rem;font-weight:900;cursor:pointer;font-family:var(--font-b);transition:all .15s;width:100%;}
+.ci-done-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;box-shadow:0 4px 14px rgba(245,166,35,.35);}
+.ci-done-secondary{background:#fff;border:2.5px solid var(--gold);color:var(--gold2);}
+.ci-done-ghost{background:none;border:2px solid #DDD;color:#888;}
+.ci-done-btn:active{transform:scale(.97);}
 
 .ov-card{background:#fff;border:3px solid var(--gold);border-radius:22px;padding:26px 32px;text-align:center;max-width:300px;}
 .ov-icon{font-size:3rem;margin-bottom:10px;}
@@ -662,10 +725,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
     <button class="menu-btn mb-g" onclick="goToCheckin()">
       <span class="menu-btn-icon">🥚</span><span class="menu-btn-label">Check In</span><span class="menu-btn-ko">입주하기</span>
     </button>
-    <button class="menu-btn mb-b" onclick="soon('🔍','My Insects','내 곤충 관찰 기능이 곧 오픈됩니다!')">
+    <button class="menu-btn mb-b" onclick="goToMyRoom()">
       <span class="menu-btn-icon">🔍</span><span class="menu-btn-label">My Insects</span><span class="menu-btn-ko">내 곤충 관찰</span>
     </button>
-    <button class="menu-btn mb-p" onclick="soon('🏨','Hotel Rooms','전체 호텔 방 보기가 곧 오픈됩니다!')">
+    <button class="menu-btn mb-p" onclick="goToAllRooms()">
       <span class="menu-btn-icon">🏨</span><span class="menu-btn-label">Hotel Rooms</span><span class="menu-btn-ko">다른 방 관찰</span>
     </button>
   </div>
@@ -675,6 +738,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
     <button class="sub-btn" onclick="soon('🔔','Alerts','알림 기능이 곧 오픈됩니다!')">🔔 Alerts</button>
   </div>
   <div class="counter-strip"></div>
+</div>
+
+<!-- ALL ROOMS SCREEN -->
+<div id="screen-allrooms" class="screen">
+  <div class="ar-header">
+    <button class="ci-back" onclick="goToMenu()">← Back</button>
+    <div class="ar-title">🏨 Hotel Rooms</div>
+    <div class="ar-count" id="ar-count"></div>
+  </div>
+  <div class="ar-grid" id="ar-grid"></div>
+</div>
+
+<!-- MY ROOM SCREEN -->
+<div id="screen-myroom" class="screen">
+  <div class="mr-header">
+    <button class="ci-back" onclick="goToMenu()">← Back</button>
+    <div class="mr-title">🔍 My Insects</div>
+    <div class="mr-count" id="mr-count"></div>
+  </div>
+  <div class="mr-grid" id="mr-grid"></div>
 </div>
 
 <!-- CHECK IN SCREEN -->
@@ -687,8 +770,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
       <div class="ci-step active" id="step-dot-1">1</div>
       <div class="ci-step-line"></div>
       <div class="ci-step" id="step-dot-2">2</div>
-      <div class="ci-step-line"></div>
-      <div class="ci-step" id="step-dot-3">3</div>
     </div>
   </div>
 
@@ -698,26 +779,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
     <div class="ci-panel-sub">어떤 곤충의 알을 입주시킬까요?</div>
     <div class="insect-grid" id="insect-grid"></div>
     <button class="ci-next-btn" id="btn-step1-next" onclick="ciGoStep2()" disabled style="margin-top:16px">
-      Next: Choose a Room →
-    </button>
-  </div>
-
-  <!-- STEP 2: Choose room type -->
-  <div class="ci-panel" id="ci-step2" style="display:none">
-    <div class="ci-panel-title">Choose a room for your egg!</div>
-    <div class="ci-panel-sub">알이 살 방을 골라주세요</div>
-
-    <!-- Life cycle preview -->
-    <div class="lifecycle-preview" id="lifecycle-preview"></div>
-
-    <div class="room-grid" id="room-grid"></div>
-    <button class="ci-next-btn" id="btn-step2-next" onclick="ciGoStep3()" disabled>
       Next: Confirm →
     </button>
   </div>
 
-  <!-- STEP 3: Confirm -->
-  <div class="ci-panel" id="ci-step3" style="display:none">
+  <!-- STEP 2: Confirm -->
+  <div class="ci-panel" id="ci-step2" style="display:none">
     <div class="ci-panel-title">Ready to check in?</div>
     <div class="ci-panel-sub">입주 내용을 확인해주세요</div>
     <div class="confirm-card">
@@ -753,7 +820,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
   </div>
 
   <!-- STEP 4: Success -->
-  <div class="ci-panel" id="ci-step4" style="display:none">
+  <div class="ci-panel" id="ci-step3" style="display:none">
     <div class="ci-success">
       <div class="ci-success-icon">🎉</div>
       <div class="ci-success-title">Successfully Checked In!</div>
@@ -773,7 +840,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
           <span class="confirm-val">2 days</span>
         </div>
       </div>
-      <button class="ci-done-btn" onclick="goToMenu()">Back to Lobby</button>
+      <div class="ci-done-btns">
+        <button class="ci-done-btn ci-done-primary" onclick="goToMyRoom()">🔍 My Room</button>
+        <button class="ci-done-btn ci-done-secondary" onclick="goToAllRooms()">🏨 Visit Other Rooms</button>
+        <button class="ci-done-btn ci-done-ghost" onclick="goToMenu()">🏠 Back to Lobby</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1007,11 +1078,143 @@ function goToCheckin() {
   speak("Which insect would you like to check in today?");
 }
 function goToMenu() { show('menu'); }
+function goToMyRoom() {
+  show('myroom');
+  loadMyRoom();
+}
+
+async function loadMyRoom() {
+  if (!fbReady()) { setTimeout(loadMyRoom, 500); return; }
+  const grid = document.getElementById('mr-grid');
+  const countEl = document.getElementById('mr-count');
+  grid.innerHTML = '<div class="mr-empty"><div class="mr-empty-icon">⏳</div><div class="mr-empty-text">Loading...</div></div>';
+
+  try {
+    const snap = await fns.getDocs(fns.query(
+      fns.collection(db, 'rooms'),
+      fns.where('guestName', '==', user.name)
+    ));
+
+    const rooms = [];
+    snap.forEach(d => rooms.push({ id: d.id, ...d.data() }));
+    rooms.sort((a, b) => b.checkinTime - a.checkinTime);
+
+    countEl.textContent = rooms.length ? `${rooms.length}마리` : '';
+
+    if (rooms.length === 0) {
+      grid.innerHTML = '<div class="mr-empty"><div class="mr-empty-icon">🥚</div><div class="mr-empty-text">아직 입주한 곤충이 없어요!<br>Check In으로 곤충을 데려와보세요.</div></div>';
+      return;
+    }
+
+    const now = Date.now();
+    grid.innerHTML = '';
+    rooms.forEach(room => {
+      // 현재 단계 계산
+      let currentStage = 0;
+      if (room.stageSchedule) {
+        for (let i = 0; i < room.stageSchedule.length; i++) {
+          if (now >= room.stageSchedule[i].startTime) currentStage = i;
+          else break;
+        }
+      }
+      const stage = room.stageSchedule ? room.stageSchedule[currentStage] : null;
+      const isAdult = currentStage === 3;
+      const nextStage = room.stageSchedule && !isAdult ? room.stageSchedule[currentStage + 1] : null;
+      const msLeft = nextStage ? nextStage.startTime - now : 0;
+      const daysLeft = msLeft > 0 ? Math.ceil(msLeft / (1000 * 60 * 60 * 24)) : 0;
+      const hoursLeft = msLeft > 0 ? Math.ceil(msLeft / (1000 * 60 * 60)) : 0;
+
+      const timeText = isAdult ? '🎓 성충 완료!' :
+        daysLeft >= 1 ? `다음 단계까지 ${daysLeft}일` :
+        hoursLeft > 0 ? `다음 단계까지 ${hoursLeft}시간` : '곧 변태!';
+
+      const card = document.createElement('div');
+      card.className = 'mr-card' + (isAdult ? ' mr-card-done' : '');
+      card.innerHTML = `
+        <div class="mr-card-room">#${String(room.roomNumber).padStart(3,'0')} ${room.roomType ? '· '+ROOM_LABEL[room.roomType] : ''}</div>
+        <div class="mr-card-emoji">${stage ? stage.emoji : room.insectEmoji}</div>
+        <div class="mr-card-name">${room.insectName}</div>
+        <div class="mr-card-stage">${stage ? stage.name : ''}</div>
+        <div class="mr-stage-bar">
+          ${[0,1,2,3].map(i => `<div class="mr-stage-dot ${i < currentStage ? 'done' : i === currentStage ? 'current' : ''}"></div>`).join('')}
+        </div>
+        <div class="mr-card-days">${timeText}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+  } catch(e) {
+    console.error(e);
+    grid.innerHTML = '<div class="mr-empty"><div class="mr-empty-icon">⚠️</div><div class="mr-empty-text">불러오기 실패. 다시 시도해주세요.</div></div>';
+  }
+}
+function goToAllRooms() {
+  show('allrooms');
+  loadAllRooms();
+}
+
+async function loadAllRooms() {
+  if (!fbReady()) { setTimeout(loadAllRooms, 500); return; }
+  const grid = document.getElementById('ar-grid');
+  const countEl = document.getElementById('ar-count');
+  grid.innerHTML = '<div class="ar-empty"><div style="font-size:2rem">⏳</div><div style="font-size:.9rem;font-weight:700;margin-top:8px">Loading...</div></div>';
+
+  try {
+    const snap = await fns.getDocs(fns.collection(db, 'rooms'));
+    const rooms = [];
+    snap.forEach(d => rooms.push({ id: d.id, ...d.data() }));
+
+    // 최근 체크인 순 (역순)
+    rooms.sort((a, b) => b.checkinTime - a.checkinTime);
+
+    countEl.textContent = rooms.length ? `총 ${rooms.length}개 방` : '';
+
+    if (rooms.length === 0) {
+      grid.innerHTML = '<div class="ar-empty"><div style="font-size:2.5rem">🏨</div><div style="font-size:.9rem;font-weight:700;margin-top:8px;color:#BBB">아직 입주한 곤충이 없어요!</div></div>';
+      return;
+    }
+
+    const now = Date.now();
+    grid.innerHTML = '';
+    rooms.forEach(room => {
+      let currentStage = 0;
+      if (room.stageSchedule) {
+        for (let i = 0; i < room.stageSchedule.length; i++) {
+          if (now >= room.stageSchedule[i].startTime) currentStage = i;
+          else break;
+        }
+      }
+      const stage = room.stageSchedule ? room.stageSchedule[currentStage] : null;
+      const isAdult = currentStage === 3;
+      const isMine = room.guestName === user.name;
+
+      const card = document.createElement('div');
+      card.className = 'ar-card' + (isMine ? ' ar-card-mine' : '');
+      card.innerHTML = `
+        ${isMine ? '<div class="ar-mine-badge">내 방 ⭐</div>' : ''}
+        <div class="ar-card-room">#${String(room.roomNumber).padStart(3,'0')} · ${ROOM_LABEL[room.roomType] || ''}</div>
+        <div class="ar-card-emoji">${stage ? stage.emoji : room.insectEmoji}</div>
+        <div class="ar-card-name">${room.insectName}</div>
+        <div class="ar-card-guest">👤 ${room.guestName}</div>
+        <div class="ar-card-stage">${stage ? stage.name : ''}</div>
+        <div class="ar-stage-bar">
+          ${[0,1,2,3].map(i => `<div class="ar-stage-dot ${i < currentStage ? 'done' : i === currentStage ? 'current' : ''}"></div>`).join('')}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+  } catch(e) {
+    console.error(e);
+    grid.innerHTML = '<div class="ar-empty"><div style="font-size:2rem">⚠️</div><div style="font-size:.9rem;font-weight:700;margin-top:8px;color:#BBB">불러오기 실패. 다시 시도해주세요.</div></div>';
+  }
+}
 
 // ========== STEP DOTS ==========
 function ciSetStep(n) {
-  [1,2,3].forEach(i => {
+  [1,2].forEach(i => {
     const el = document.getElementById('step-dot-'+i);
+    if (!el) return;
     el.classList.remove('active','done');
     if (i < n) el.classList.add('done');
     else if (i === n) el.classList.add('active');
@@ -1019,13 +1222,12 @@ function ciSetStep(n) {
 }
 
 function ciReset() {
-  ['ci-step1','ci-step2','ci-step3','ci-step4'].forEach(id => {
+  ['ci-step1','ci-step2','ci-step3'].forEach(id => {
     document.getElementById(id).style.display = 'none';
   });
   document.getElementById('ci-step1').style.display = 'block';
   ciSetStep(1);
   document.getElementById('btn-step1-next').disabled = true;
-  document.getElementById('btn-step2-next').disabled = true;
 }
 
 // ========== STEP 1: INSECT GRID ==========
@@ -1055,15 +1257,15 @@ function selectInsect(id) {
   speak(`${ci.insect.nameEn}! Great choice!`);
 }
 
-// ========== STEP 2: ROOM GRID ==========
+// ========== STEP 2: CONFIRM (방은 곤충에 따라 자동 배정) ==========
 function ciGoStep2() {
   if (!ci.insect) return;
+  // 방은 곤충 종류에 맞게 자동 배정
+  ci.room = ROOMS.find(r => r.id === ci.insect.room);
   document.getElementById('ci-step1').style.display = 'none';
   document.getElementById('ci-step2').style.display = 'block';
   ciSetStep(2);
-  renderLifecycle();
-  renderRoomGrid();
-  speak(`The ${ci.insect.nameEn} lives in the ${ROOM_LABEL[ci.insect.room]}. Let me show you the available room!`);
+  ciGoConfirm();
 }
 
 function renderLifecycle() {
@@ -1107,12 +1309,9 @@ function selectRoom(id) {
   speak(`${ci.room.nameEn} selected!`);
 }
 
-// ========== STEP 3: CONFIRM ==========
-function ciGoStep3() {
+// ========== CONFIRM ==========
+function ciGoConfirm() {
   if (!ci.room) return;
-  document.getElementById('ci-step2').style.display = 'none';
-  document.getElementById('ci-step3').style.display = 'block';
-  ciSetStep(3);
 
   const now = new Date();
   const adult = new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000);
@@ -1139,14 +1338,14 @@ async function doCheckin() {
 
     // 전체 방 번호 카운터 (hotel_meta/roomCounters)
     // 구조: { total: 0 }  — 방 종류 상관없이 순서대로 번호 부여
-    const counterRef = doc(db, 'hotel_meta', 'roomCounters');
+    const counterRef = fns.doc(db, 'hotel_meta', 'roomCounters');
     const insect = ci.insect;
     const roomType = ci.room.id;
 
     let roomNum = null;
 
     // 트랜잭션: 카운터 읽기 → 증가 → 방 번호 확정
-    await runTransaction(db, async (transaction) => {
+    await fns.runTransaction(db, async (transaction) => {
       const counterSnap = await transaction.get(counterRef);
 
       const counters = counterSnap.exists() ? counterSnap.data() : { total: 0 };
@@ -1189,11 +1388,11 @@ async function doCheckin() {
       birthday: null,
     };
 
-    await addDoc(collection(db, 'rooms'), roomDoc);
+    await fns.addDoc(fns.collection(db, 'rooms'), roomDoc);
 
     // 성공 화면
-    document.getElementById('ci-step3').style.display = 'none';
-    document.getElementById('ci-step4').style.display = 'block';
+    document.getElementById('ci-step2').style.display = 'none';
+    document.getElementById('ci-step3').style.display = 'block';
     document.getElementById('success-room-icon').textContent = ci.room.emoji + ' ' + insect.emoji;
     document.getElementById('success-room-num').textContent =
       `#${String(roomNum).padStart(3,'0')} — ${ci.room.name}`;
