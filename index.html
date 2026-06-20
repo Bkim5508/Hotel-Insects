@@ -25,10 +25,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 
 /* LOBBY */
 #screen-lobby{position:relative;overflow:hidden;}
-#lobby-svg{position:absolute;inset:0;width:100%;height:100%;}
+@keyframes sabeolFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-16px);}
+}
 .lobby-bubble{
   position:absolute;z-index:20;
-  top:10%;left:45%;
+  top:8%;left:42%;
   background:#fff;border-radius:20px;
   padding:12px 18px;max-width:260px;
   box-shadow:0 6px 24px rgba(0,0,0,0.13);
@@ -551,233 +554,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 
 <!-- LOBBY -->
 <div id="screen-lobby" class="screen active">
-  <svg id="lobby-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="lampG" cx="50%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="#FFE070" stop-opacity="0.45"/>
-        <stop offset="100%" stop-color="#FFE070" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="bellShine" cx="35%" cy="28%" r="65%">
-        <stop offset="0%" stop-color="#FFE844"/>
-        <stop offset="55%" stop-color="#D4A020"/>
-        <stop offset="100%" stop-color="#9A7010"/>
-      </radialGradient>
-    </defs>
+  <!-- 배경 이미지 -->
+  <img id="lobby-bg" src="00_Hotel%20Lobby.png" alt="Hotel Lobby"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;">
 
-    <!-- 벽 배경 -->
-    <rect width="1000" height="600" fill="#EDD8B0"/>
-    <!-- 벽지 다이아 패턴 -->
-    <g opacity="0.1" stroke="#8B6030" stroke-width="1" fill="none">
-      <path d="M0,30 L50,0 L100,30 L50,60 Z"/>
-      <path d="M100,30 L150,0 L200,30 L150,60 Z"/>
-      <path d="M200,30 L250,0 L300,30 L250,60 Z"/>
-      <path d="M300,30 L350,0 L400,30 L350,60 Z"/>
-      <path d="M400,30 L450,0 L500,30 L450,60 Z"/>
-      <path d="M500,30 L550,0 L600,30 L550,60 Z"/>
-      <path d="M600,30 L650,0 L700,30 L650,60 Z"/>
-      <path d="M700,30 L750,0 L800,30 L750,60 Z"/>
-      <path d="M800,30 L850,0 L900,30 L850,60 Z"/>
-      <path d="M900,30 L950,0 L1000,30 L950,60 Z"/>
-      <path d="M50,90 L100,60 L150,90 L100,120 Z"/>
-      <path d="M150,90 L200,60 L250,90 L200,120 Z"/>
-      <path d="M250,90 L300,60 L350,90 L300,120 Z"/>
-      <path d="M350,90 L400,60 L450,90 L400,120 Z"/>
-      <path d="M450,90 L500,60 L550,90 L500,120 Z"/>
-      <path d="M550,90 L600,60 L650,90 L600,120 Z"/>
-      <path d="M650,90 L700,60 L750,90 L700,120 Z"/>
-      <path d="M750,90 L800,60 L850,90 L800,120 Z"/>
-      <path d="M850,90 L900,60 L950,90 L900,120 Z"/>
-      <path d="M0,90 L50,60 L100,90 L50,120 Z"/>
-      <path d="M0,150 L50,120 L100,150 L50,180 Z"/>
-      <path d="M100,150 L150,120 L200,150 L150,180 Z"/>
-      <path d="M200,150 L250,120 L300,150 L250,180 Z"/>
-      <path d="M300,150 L350,120 L400,150 L350,180 Z"/>
-      <path d="M400,150 L450,120 L500,150 L450,180 Z"/>
-      <path d="M500,150 L550,120 L600,150 L550,180 Z"/>
-      <path d="M600,150 L650,120 L700,150 L650,180 Z"/>
-      <path d="M700,150 L750,120 L800,150 L750,180 Z"/>
-      <path d="M800,150 L850,120 L900,150 L850,180 Z"/>
-      <path d="M900,150 L950,120 L1000,150 L950,180 Z"/>
-    </g>
+  <!-- 제미나이 워터마크 가리기 (오른쪽 하단 꼭짓점) -->
+  <div style="position:absolute;right:0;bottom:0;width:80px;height:50px;background:#8B6030;z-index:5;"></div>
 
-    <!-- 허리 몰딩 -->
-    <rect x="0" y="340" width="1000" height="10" fill="#C0984A"/>
-    <rect x="0" y="350" width="1000" height="4" fill="#E0C080"/>
-    <rect x="0" y="354" width="1000" height="88" fill="#C89860"/>
+  <!-- 사벌이 (둥실둥실 애니메이션) -->
+  <img id="lobby-sabeol" src="00_Hotel%20Lobby_%EC%82%AC%EB%B2%8C%EC%9D%B4.png" alt="사벌이"
+    style="position:absolute;left:0;bottom:0;height:100%;object-fit:contain;object-position:bottom left;
+    animation:sabeolFloat 3s ease-in-out infinite;pointer-events:none;z-index:2;">
 
-    <!-- 카운터 -->
-    <rect x="0" y="442" width="1000" height="158" fill="#7A4820"/>
-    <rect x="0" y="442" width="1000" height="18" fill="#9A6030"/>
-    <rect x="0" y="444" width="1000" height="5" fill="#C08040"/>
-    <!-- 카운터 패널 -->
-    <rect x="28" y="472" width="175" height="102" rx="8" fill="#6A3818" stroke="#5A2808" stroke-width="2"/>
-    <rect x="235" y="472" width="175" height="102" rx="8" fill="#6A3818" stroke="#5A2808" stroke-width="2"/>
-    <rect x="442" y="472" width="175" height="102" rx="8" fill="#6A3818" stroke="#5A2808" stroke-width="2"/>
-    <rect x="650" y="472" width="175" height="102" rx="8" fill="#6A3818" stroke="#5A2808" stroke-width="2"/>
-    <!-- 패널 장식 꽃 -->
-    <text x="115" y="535" text-anchor="middle" font-size="26" opacity="0.2">✿</text>
-    <text x="322" y="535" text-anchor="middle" font-size="26" opacity="0.2">✿</text>
-    <text x="529" y="535" text-anchor="middle" font-size="26" opacity="0.2">✿</text>
-    <text x="737" y="535" text-anchor="middle" font-size="26" opacity="0.2">✿</text>
+  <!-- 종 클릭 영역 (이미지 기준 오른쪽 하단) -->
+  <div id="bell-hit" onclick="ringBell()"
+    style="position:absolute;right:6%;bottom:10%;width:13%;height:32%;cursor:pointer;z-index:10;"></div>
 
-    <!-- 아치 (배경) -->
-    <rect x="350" y="55" width="300" height="295" rx="150" fill="#C09848" opacity="0.25"/>
-    <rect x="362" y="67" width="276" height="275" rx="138" fill="#D0A858" opacity="0.2"/>
-    <!-- 아치 테두리 -->
-    <path d="M350,350 L350,200 Q350,55 500,55 Q650,55 650,200 L650,350" fill="none" stroke="#C09848" stroke-width="6" opacity="0.5"/>
-
-    <!-- HOTEL INSECTS 간판 -->
-    <rect x="325" y="28" width="350" height="68" rx="10" fill="#5A2E10" stroke="#D4950A" stroke-width="4"/>
-    <rect x="333" y="36" width="334" height="52" rx="7" fill="#6A3820" opacity="0.5"/>
-    <text x="500" y="69" text-anchor="middle" font-family="'Fredoka One',cursive" font-size="27" fill="#FFD700" letter-spacing="3">HOTEL INSECTS</text>
-
-    <!-- 왼쪽 액자 -->
-    <rect x="52" y="105" width="108" height="128" rx="4" fill="#C09848" stroke="#8B5820" stroke-width="5"/>
-    <rect x="61" y="114" width="90" height="110" rx="2" fill="#EEE8D8"/>
-    <ellipse cx="106" cy="162" rx="26" ry="15" fill="#5888D0" opacity="0.85" transform="rotate(-18,106,162)"/>
-    <ellipse cx="106" cy="162" rx="26" ry="15" fill="#78A8F0" opacity="0.6" transform="rotate(18,106,162)"/>
-    <ellipse cx="106" cy="168" rx="16" ry="20" fill="#3868B0" opacity="0.5" transform="rotate(-8,106,168)"/>
-    <line x1="106" y1="146" x2="106" y2="188" stroke="#1A2A18" stroke-width="1.5"/>
-    <line x1="100" y1="144" x2="95" y2="137" stroke="#1A2A18" stroke-width="1.2"/>
-    <line x1="112" y1="144" x2="117" y2="137" stroke="#1A2A18" stroke-width="1.2"/>
-    <text x="106" y="208" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="9" fill="#8B5820" font-weight="700">나비</text>
-
-    <!-- 오른쪽 액자 (장수풍뎅이) -->
-    <rect x="840" y="88" width="118" height="138" rx="4" fill="#C09848" stroke="#8B5820" stroke-width="5"/>
-    <rect x="849" y="97" width="100" height="120" rx="2" fill="#EEE8D8"/>
-    <ellipse cx="899" cy="160" rx="22" ry="28" fill="#2A5820" stroke="#1A3810" stroke-width="1.5"/>
-    <ellipse cx="899" cy="146" rx="20" ry="14" fill="#388038" stroke="#1A3810" stroke-width="1.5"/>
-    <circle cx="888" cy="142" r="4.5" fill="#081808" stroke="#000" stroke-width="1"/>
-    <circle cx="910" cy="142" r="4.5" fill="#081808" stroke="#000" stroke-width="1"/>
-    <path d="M879,144 Q864,128 855,116" fill="none" stroke="#1A3810" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M919,144 Q934,128 943,116" fill="none" stroke="#1A3810" stroke-width="2.5" stroke-linecap="round"/>
-    <text x="899" y="206" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="9" fill="#8B5820" font-weight="700">장수풍뎅이</text>
-
-    <!-- 램프 빛 -->
-    <ellipse cx="500" cy="60" rx="320" ry="200" fill="url(#lampG)"/>
-
-    <!-- ===== 사벌이 (SVG 일러스트) ===== -->
-    <g id="sabeol-g">
-      <!-- 다리 -->
-      <ellipse cx="358" cy="442" rx="22" ry="12" fill="#1A0808"/>
-      <ellipse cx="430" cy="445" rx="22" ry="12" fill="#1A0808"/>
-
-      <!-- 몸통 (정장) -->
-      <ellipse cx="395" cy="380" rx="96" ry="90" fill="#18184A"/>
-      <!-- 정장 라펠 L -->
-      <path d="M330,340 Q340,360 360,370 L370,420 Q345,410 330,390 Z" fill="#28286A"/>
-      <!-- 정장 라펠 R -->
-      <path d="M460,340 Q450,360 430,370 L420,420 Q445,410 460,390 Z" fill="#28286A"/>
-      <!-- 셔츠 앞면 -->
-      <path d="M375,340 L395,348 L415,340 L412,430 L395,442 L378,430 Z" fill="#F0E8D0"/>
-      <!-- 넥타이 -->
-      <path d="M388,345 L395,352 L402,345 L399,432 L395,440 L391,432 Z" fill="#C89040"/>
-      <circle cx="394" cy="368" r="3" fill="#E8B050" opacity="0.8"/>
-      <circle cx="395" cy="382" r="2.5" fill="#E8B050" opacity="0.8"/>
-      <circle cx="395" cy="394" r="2" fill="#E8B050" opacity="0.8"/>
-      <!-- 단추 -->
-      <circle cx="395" cy="448" r="4" fill="#28286A" stroke="#18184A" stroke-width="1"/>
-
-      <!-- 이름표 -->
-      <rect x="408" y="385" width="58" height="36" rx="5" fill="white" stroke="#DDD" stroke-width="1.5"/>
-      <text x="437" y="399" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="7.5" fill="#E05555" font-weight="900">지배인</text>
-      <text x="437" y="413" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="10" fill="#222" font-weight="900">사벌이</text>
-
-      <!-- 왼팔 (책 쪽) -->
-      <path d="M302,360 Q275,372 260,395 Q268,412 288,406 Q308,392 332,368 Z" fill="#180808" stroke="#080400" stroke-width="1.5"/>
-      <!-- 책 -->
-      <rect x="218" y="386" width="58" height="48" rx="5" fill="#5A2008" stroke="#3A1008" stroke-width="2"/>
-      <rect x="225" y="393" width="44" height="34" rx="2" fill="#6A3018" opacity="0.7"/>
-      <text x="247" y="405" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="6.5" fill="#FFD060" font-weight="900">GUEST</text>
-      <text x="247" y="415" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="6.5" fill="#FFD060" font-weight="900">손님 공책</text>
-
-      <!-- 오른팔 -->
-      <path d="M488,355 Q515,368 528,390 Q520,408 500,402 Q480,388 458,362 Z" fill="#180808" stroke="#080400" stroke-width="1.5"/>
-
-      <!-- 머리 -->
-      <ellipse cx="395" cy="258" rx="90" ry="88" fill="#1E0C06" stroke="#0A0400" stroke-width="2.5"/>
-      <!-- 볼터치 -->
-      <ellipse cx="338" cy="285" rx="18" ry="11" fill="#FF9090" opacity="0.28"/>
-      <ellipse cx="452" cy="285" rx="18" ry="11" fill="#FF9090" opacity="0.28"/>
-
-      <!-- 왼쪽 눈 -->
-      <ellipse cx="358" cy="258" rx="28" ry="30" fill="white" stroke="#080400" stroke-width="2"/>
-      <circle cx="363" cy="261" r="18" fill="#180A2E"/>
-      <circle cx="370" cy="254" r="6" fill="white"/>
-
-      <!-- 모노클 (오른쪽) -->
-      <circle cx="432" cy="250" r="32" fill="none" stroke="#D4A030" stroke-width="4.5"/>
-      <circle cx="432" cy="250" r="28" fill="rgba(200,180,100,0.15)"/>
-      <line x1="456" y1="274" x2="468" y2="298" stroke="#C89820" stroke-width="3"/>
-      <ellipse cx="432" cy="250" rx="24" ry="26" fill="white" stroke="#080400" stroke-width="1.5"/>
-      <circle cx="437" cy="253" r="16" fill="#180A2E"/>
-      <circle cx="444" cy="246" r="5" fill="white"/>
-
-      <!-- 눈썹 -->
-      <path d="M334,236 Q350,224 366,230" fill="none" stroke="#150606" stroke-width="3.5" stroke-linecap="round"/>
-      <path d="M412,224 Q428,215 444,220" fill="none" stroke="#150606" stroke-width="3.5" stroke-linecap="round"/>
-
-      <!-- 입 -->
-      <path d="M366,295 Q395,315 424,295" fill="none" stroke="#4A2010" stroke-width="3" stroke-linecap="round"/>
-
-      <!-- 뿔 L -->
-      <path d="M328,192 Q308,148 292,115 Q278,88 260,72" fill="#100606" stroke="#080400" stroke-width="3.5" stroke-linecap="round"/>
-      <path d="M292,115 Q270,106 258,94" fill="#100606" stroke="#080400" stroke-width="3" stroke-linecap="round"/>
-      <!-- 뿔 R -->
-      <path d="M462,192 Q482,148 498,115 Q512,88 530,72" fill="#100606" stroke="#080400" stroke-width="3.5" stroke-linecap="round"/>
-      <path d="M498,115 Q520,106 532,94" fill="#100606" stroke="#080400" stroke-width="3" stroke-linecap="round"/>
-      <!-- 더듬이 -->
-      <path d="M372,172 Q360,146 354,128" fill="none" stroke="#180A06" stroke-width="2.5" stroke-linecap="round"/>
-      <circle cx="352" cy="124" r="5.5" fill="#180A06"/>
-      <path d="M418,172 Q430,146 436,128" fill="none" stroke="#180A06" stroke-width="2.5" stroke-linecap="round"/>
-      <circle cx="438" cy="124" r="5.5" fill="#180A06"/>
-    </g>
-
-    <!-- 카운터 위 소품 -->
-    <!-- 꽃병 -->
-    <path d="M605,442 Q598,408 604,392 Q616,380 628,392 Q634,408 627,442 Z" fill="#B8D8F8" stroke="#88B8E0" stroke-width="1.5" opacity="0.9"/>
-    <text x="616" y="406" text-anchor="middle" font-size="20">🌸</text>
-    <text x="604" y="416" text-anchor="middle" font-size="16">🌼</text>
-    <text x="628" y="420" text-anchor="middle" font-size="14">🌺</text>
-
-    <!-- 손님 공책 -->
-    <rect x="678" y="398" width="55" height="46" rx="4" fill="#4A2008" stroke="#2A1008" stroke-width="2" transform="rotate(-6,705,421)"/>
-    <text x="706" y="415" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="6" fill="#FFD070" font-weight="900" transform="rotate(-6,706,415)">GUEST</text>
-    <text x="706" y="424" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="6" fill="#FFD070" font-weight="900" transform="rotate(-6,706,424)">손님 공책</text>
-
-    <!-- 스탠드 조명 -->
-    <rect x="752" y="358" width="7" height="84" rx="3" fill="#C09848"/>
-    <ellipse cx="755" cy="358" rx="20" ry="9" fill="#E8C870" stroke="#C09848" stroke-width="2"/>
-    <path d="M735,358 Q755,334 775,358 Z" fill="#B08838" stroke="#906818" stroke-width="1.5"/>
-    <rect x="738" y="442" width="34" height="5" rx="2.5" fill="#A07838"/>
-
-    <!-- 종 (클릭 가능) -->
-    <g style="cursor:pointer;" onclick="ringBell()">
-      <path d="M858,442 Q848,408 853,383 Q862,360 882,356 Q902,360 911,383 Q916,408 906,442 Z" fill="url(#bellShine)" stroke="#906810" stroke-width="2"/>
-      <path d="M863,442 Q855,414 860,392 Q868,374 882,370 Q896,374 904,392 Q909,414 901,442 Z" fill="#F0C840" opacity="0.4"/>
-      <ellipse cx="882" cy="355" rx="16" ry="7" fill="#C09020" stroke="#907010" stroke-width="2"/>
-      <rect x="876" y="340" width="12" height="17" rx="6" fill="#C09020" stroke="#907010" stroke-width="1.5"/>
-      <rect x="852" y="440" width="60" height="9" rx="4" fill="#906810"/>
-      <!-- 진동 -->
-      <path d="M836,408 Q828,398 836,388" fill="none" stroke="#C09020" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
-      <path d="M828,417 Q817,403 828,387" fill="none" stroke="#C09020" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-      <path d="M928,408 Q936,398 928,388" fill="none" stroke="#C09020" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
-      <path d="M936,417 Q947,403 936,387" fill="none" stroke="#C09020" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-      <!-- RING! 텍스트 -->
-      <text x="950" y="382" font-family="'Fredoka One',cursive" font-size="19" fill="#7A4E1A" font-weight="900">RING!</text>
-      <text x="950" y="404" font-family="'Fredoka One',cursive" font-size="19" fill="#7A4E1A" font-weight="900">RING!</text>
-    </g>
-
-    <!-- 화분 -->
-    <path d="M968,442 Q960,400 965,386 Q975,375 986,375 Q997,375 1002,386 Q1007,400 999,442 Z" fill="#508828" stroke="#306808" stroke-width="1.5"/>
-    <text x="983" y="406" text-anchor="middle" font-size="22">🌿</text>
-    <text x="966" y="420" text-anchor="middle" font-size="18">🍃</text>
-
-    <!-- 사벌이 애니메이션 -->
-    <animateTransform attributeName="transform" type="translate" values="0,0;0,-12;0,0" dur="3s" repeatCount="indefinite" xlink:href="#sabeol-g"/>
-  </svg>
-
-  <!-- Speech bubble -->
+  <!-- 말풍선 -->
   <div class="lobby-bubble" id="lobby-bubble">
     <div class="lobby-bubble-text" id="lobby-bubble-text"></div>
     <div class="bubble-tail"></div>
