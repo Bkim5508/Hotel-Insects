@@ -266,13 +266,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#FFF8EE;font-family:
 <body>
 
 <!-- LOADING -->
-<div id="screen-loading" class="screen active">
+<div id="screen-loading" class="screen">
   <span class="ld-bug">🐛</span>
   <div class="ld-txt">Hotel Insects</div>
 </div>
 
 <!-- LOBBY -->
-<div id="screen-lobby" class="screen">
+<div id="screen-lobby" class="screen active">
   <svg id="lobby-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
@@ -1210,27 +1210,17 @@ async function doCheckin() {
   }
 }
 
-
-
-  // 로비를 즉시 표시 — Firebase 연결 기다리지 않음
+function init(){
   show('lobby');
   startBlink();
   if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
   document.getElementById('inp-name-new').addEventListener('keydown',e=>{if(e.key==='Enter')goPin();});
   document.getElementById('inp-name-ret').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-
-  // Firebase는 백그라운드에서 연결 (준비되면 db/fns 세팅)
-  function tryConnectFirebase(){
-    if(window._fbReady){
-      db=window._db; fns=window._fns;
-    } else {
-      window._gameWaiting=function(){
-        db=window._db; fns=window._fns;
-      };
-    }
+  if(window._fbReady){
+    db=window._db; fns=window._fns;
+  } else {
+    window._gameWaiting=function(){ db=window._db; fns=window._fns; };
   }
-  tryConnectFirebase();
-
 }
 window.addEventListener('load',init);
 </script>
